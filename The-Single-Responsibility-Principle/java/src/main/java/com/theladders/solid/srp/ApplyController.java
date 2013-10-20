@@ -23,11 +23,8 @@ import com.theladders.solid.srp.resume.ResumeManager;
 
 public class ApplyController
 {
-  private final JobseekerProfileManager jobseekerProfileManager;
-  private final JobSearchService        jobSearchService;
-  private final JobApplicationSystem    jobApplicationSystem;
-  private final ResumeManager           resumeManager;
-  private final MyResumeManager         myResumeManager;
+
+  private ApplicationProcess theApplicationProcess;
 
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobSearchService jobSearchService,
@@ -35,24 +32,25 @@ public class ApplyController
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.jobseekerProfileManager = jobseekerProfileManager;
-    this.jobSearchService = jobSearchService;
-    this.jobApplicationSystem = jobApplicationSystem;
-    this.resumeManager = resumeManager;
-    this.myResumeManager = myResumeManager;
+    theApplicationProcess = new ApplicationProcess(jobseekerProfileManager,
+          jobSearchService,
+          jobApplicationSystem,
+          resumeManager,
+          myResumeManager);
   }
 
   public HttpResponse handle(HttpRequest request,
                              HttpResponse response,
+
                              String origFileName)
   {
     Jobseeker jobseeker = request.getSession().getJobseeker();
-    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
+    JobseekerProfile profile = theApplicationProcess.getJobSeekerProfile(jobseeker);
 
     String jobIdString = request.getParameter("jobId");
     int jobId = Integer.parseInt(jobIdString);
 
-    Job job = jobSearchService.getJob(jobId);
+    Job job = theApplicationProcess.getJob(jobId);
 
     if (job == null)
     {
@@ -116,7 +114,7 @@ public class ApplyController
   {
     Resume resume = saveNewOrRetrieveExistingResume(fileName,jobseeker, request);
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-    JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
+    JobApplicationResult applicationResult = theApplicationProcess.apply(application);
 
     if (applicationResult.failure())
     {
@@ -132,16 +130,16 @@ public class ApplyController
 
     if (!"existing".equals(request.getParameter("whichResume")))
     {
-      resume = resumeManager.saveResume(jobseeker, newResumeFileName);
+      resume = theApplicationProcess.saveResume(jobseeker, newResumeFileName);
 
       if (resume != null && "yes".equals(request.getParameter("makeResumeActive")))
       {
-        myResumeManager.saveAsActive(jobseeker, resume);
+        theApplicationProcess.saveAsActive(jobseeker, resume);
       }
     }
     else
     {
-      resume = myResumeManager.getActiveResume(jobseeker.getId());
+      resume = theApplicationProcess.getActiveResume(jobseeker.getId());
     }
 
     return resume;
