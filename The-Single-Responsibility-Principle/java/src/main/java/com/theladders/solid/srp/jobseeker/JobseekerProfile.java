@@ -20,4 +20,11 @@ public class JobseekerProfile
   {
     return id;
   }
+
+  public boolean needsResumeCompletion(boolean isPremium)
+  {
+     return  !isPremium && (getStatus().equals(ProfileStatus.INCOMPLETE) ||
+            getStatus().equals(ProfileStatus.NO_PROFILE) ||
+            getStatus().equals(ProfileStatus.REMOVED));
+}
 }

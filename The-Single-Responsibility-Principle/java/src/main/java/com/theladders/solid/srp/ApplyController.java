@@ -76,9 +76,8 @@ public class ApplyController
     model.put("jobId", job.getJobId());
     model.put("jobTitle", job.getTitle());
 
-    if (!jobseeker.isPremium() && (profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
-                                   profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
-                                   profile.getStatus().equals(ProfileStatus.REMOVED)))
+
+    if (profile.needsResumeCompletion(jobseeker.isPremium()))
     {
       provideResumeCompletionView(response, model);
       return response;
