@@ -56,7 +56,7 @@ public class ApplicationProcess {
     return jobApplicationSystem.apply(application);
   }
 
-  public Resume saveResume(Jobseeker jobseeker,
+  /*public Resume saveResume(Jobseeker jobseeker,
                            String fileName)
   {
     return resumeManager.saveResume(jobseeker, fileName);
@@ -66,17 +66,18 @@ public class ApplicationProcess {
                            Resume resume)
   {
     myResumeManager.saveAsActive(jobseeker, resume);
-  }
-
+  }*/
+/*
   public Resume getActiveResume(int jobseekerId)
   {
     return myResumeManager.getActiveResume(jobseekerId);
   }
+  */
 
   public void apply(Jobseeker jobseeker, Job job,
                      String fileName, boolean useExistingResume, boolean makeResumeActive)
   {
-    Resume resume = saveNewOrRetrieveExistingResume(fileName,jobseeker, useExistingResume, makeResumeActive);
+    Resume resume = ResumePolicy.saveNewOrRetrieveExistingResume(fileName, jobseeker, useExistingResume, makeResumeActive, myResumeManager, resumeManager);
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = apply(application);
 
@@ -84,6 +85,7 @@ public class ApplicationProcess {
       throw new ApplicationFailureException(applicationResult.toString());
   }
 
+  /*
   private Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
                                                  Jobseeker jobseeker, boolean useExistingResume,
                                                  boolean makeResumeActive )
@@ -103,4 +105,5 @@ public class ApplicationProcess {
 
     return resume;
   }
+  */
 }

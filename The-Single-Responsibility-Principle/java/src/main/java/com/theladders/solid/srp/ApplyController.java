@@ -53,6 +53,8 @@ public class ApplyController
 
     List<String> errList = new ArrayList<>();
 
+    Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
+
     try
     {
       theApplicationProcess.apply(jobseeker, job, origFileName, RequestInterpreter.useExistingResume(request), RequestInterpreter.makeResumeActive(request));
@@ -67,7 +69,6 @@ public class ApplyController
     model.put("jobId", job.getJobId());
     model.put("jobTitle", job.getTitle());
 
-    Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
 
     JobseekerProfile profile = theApplicationProcess.getJobSeekerProfile(jobseeker);
 
