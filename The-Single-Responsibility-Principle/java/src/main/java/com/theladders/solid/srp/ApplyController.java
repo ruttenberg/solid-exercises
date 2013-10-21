@@ -9,16 +9,11 @@ import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 import com.theladders.solid.srp.job.Job;
 import com.theladders.solid.srp.job.JobSearchService;
-import com.theladders.solid.srp.job.application.ApplicationFailureException;
-import com.theladders.solid.srp.job.application.JobApplicationResult;
 import com.theladders.solid.srp.job.application.JobApplicationSystem;
-import com.theladders.solid.srp.job.application.UnprocessedApplication;
 import com.theladders.solid.srp.jobseeker.JobseekerProfile;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
-import com.theladders.solid.srp.jobseeker.ProfileStatus;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.resume.MyResumeManager;
-import com.theladders.solid.srp.resume.Resume;
 import com.theladders.solid.srp.resume.ResumeManager;
 
 public class ApplyController
@@ -41,14 +36,10 @@ public class ApplyController
 
   public HttpResponse handle(HttpRequest request,
                              HttpResponse response,
-
                              String origFileName)
   {
-    Jobseeker jobseeker = request.getSession().getJobseeker();
-    JobseekerProfile profile = theApplicationProcess.getJobSeekerProfile(jobseeker);
 
-    String jobIdString = request.getParameter("jobId");
-    int jobId = Integer.parseInt(jobIdString);
+    int jobId = RequestInterpreter.getJobId(request);
 
     Job job = theApplicationProcess.getJob(jobId);
 
@@ -64,7 +55,7 @@ public class ApplyController
 
     try
     {
-      apply(request, jobseeker, job, origFileName);
+      theApplicationProcess.apply(jobseeker, job, origFileName, RequestInterpreter.useExistingResume(request), RequestInterpreter.makeResumeActive(request));
     }
     catch (Exception e)
     {
@@ -76,6 +67,9 @@ public class ApplyController
     model.put("jobId", job.getJobId());
     model.put("jobTitle", job.getTitle());
 
+    Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
+
+    JobseekerProfile profile = theApplicationProcess.getJobSeekerProfile(jobseeker);
 
     if (profile.needsResumeCompletion(jobseeker.isPremium()))
     {
@@ -104,44 +98,6 @@ public class ApplyController
   {
    Result result = new Result("error", model, errList);
    response.setResult(result);
-  }
-
-  private void apply(HttpRequest request,
-                     Jobseeker jobseeker,
-                     Job job,
-                     String fileName)
-  {
-    Resume resume = saveNewOrRetrieveExistingResume(fileName,jobseeker, request);
-    UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-    JobApplicationResult applicationResult = theApplicationProcess.apply(application);
-
-    if (applicationResult.failure())
-    {
-      throw new ApplicationFailureException(applicationResult.toString());
-    }
-  }
-
-  private Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
-                                                 Jobseeker jobseeker,
-                                                 HttpRequest request)
-  {
-    Resume resume;
-
-    if (!"existing".equals(request.getParameter("whichResume")))
-    {
-      resume = theApplicationProcess.saveResume(jobseeker, newResumeFileName);
-
-      if (resume != null && "yes".equals(request.getParameter("makeResumeActive")))
-      {
-        theApplicationProcess.saveAsActive(jobseeker, resume);
-      }
-    }
-    else
-    {
-      resume = theApplicationProcess.getActiveResume(jobseeker.getId());
-    }
-
-    return resume;
   }
 
   private static void provideInvalidJobView(HttpResponse response, int jobId)
