@@ -1,7 +1,6 @@
 package com.theladders.solid.srp;
 
 import com.theladders.solid.srp.jobseeker.Jobseeker;
-import com.theladders.solid.srp.jobseeker.JobseekerProfile;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 
 /**
@@ -20,11 +19,6 @@ public class ProfileService
   {
     theJobseeker = aJobseeker;
     theJobseekerProfileManager = aJobseekerProfileManager;
-  }
-
-  public JobseekerProfile getJobSeekerProfile()
-  {
-    return  theJobseekerProfileManager.getJobSeekerProfile(theJobseeker);
   }
 
   public boolean needsResumeCompletion(boolean isPremium)

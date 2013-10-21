@@ -15,22 +15,24 @@ import com.theladders.solid.srp.resume.ResumeManager;
 public class ResumePolicy
 {
   private MyResumeManager theMyResumeManager;
+  private ResumeManager theResumeManager;
 
-  public ResumePolicy(MyResumeManager aMyResumeManager)
+  public ResumePolicy(MyResumeManager aMyResumeManager, ResumeManager aResumeManager)
   {
     theMyResumeManager = aMyResumeManager;
+    theResumeManager = aResumeManager;
   }
 
   public Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
                                                  Jobseeker jobseeker, boolean useExistingResume,
-                                                 boolean makeResumeActive, ResumeManager resumeManager)
+                                                 boolean makeResumeActive)
   {
     Resume resume;
 
     if (useExistingResume)
       return getActiveResume(jobseeker.getId());
 
-    resume = ResumePolicy.saveResume(jobseeker, newResumeFileName, resumeManager);
+    resume = saveResume(jobseeker, newResumeFileName);
 
     if (resume == null)
       return resume;
@@ -52,10 +54,10 @@ public class ResumePolicy
     theMyResumeManager.saveAsActive(jobseeker, resume);
   }
 
-  private static Resume saveResume(Jobseeker jobseeker,
-                           String fileName, ResumeManager resumeManager)
+  private Resume saveResume(Jobseeker jobseeker,
+                           String fileName )
   {
-    return resumeManager.saveResume(jobseeker, fileName);
+    return theResumeManager.saveResume(jobseeker, fileName);
   }
 
 }

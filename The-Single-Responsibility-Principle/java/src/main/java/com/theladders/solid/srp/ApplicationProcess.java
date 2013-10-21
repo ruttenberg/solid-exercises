@@ -20,8 +20,6 @@ import com.theladders.solid.srp.resume.ResumeManager;
 public class ApplicationProcess {
 
   private final JobApplicationSystem    jobApplicationSystem;
-  private final ResumeManager           resumeManager;
-//  private final MyResumeManager         myResumeManager;
   private final ResumePolicy            theResumePolicy;
 
   public ApplicationProcess(
@@ -30,22 +28,20 @@ public class ApplicationProcess {
                          MyResumeManager myResumeManager)
   {
     this.jobApplicationSystem = jobApplicationSystem;
-    this.resumeManager = resumeManager;
- //   this.myResumeManager = myResumeManager;
-    this.theResumePolicy = new ResumePolicy(myResumeManager);
+    this.theResumePolicy = new ResumePolicy(myResumeManager, resumeManager);
   }
 
-  private JobApplicationResult apply(UnprocessedApplication application)
+  /*private JobApplicationResult apply(UnprocessedApplication application)
   {
     return jobApplicationSystem.apply(application);
-  }
+  }*/
 
   public void apply(Jobseeker jobseeker, Job job,
                      String fileName, boolean useExistingResume, boolean makeResumeActive)
   {
-    Resume resume = theResumePolicy.saveNewOrRetrieveExistingResume(fileName, jobseeker, useExistingResume, makeResumeActive,  resumeManager);
+    Resume resume = theResumePolicy.saveNewOrRetrieveExistingResume(fileName, jobseeker, useExistingResume, makeResumeActive);
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-    JobApplicationResult applicationResult = apply(application);
+    JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
 
     if (applicationResult.failure())
       throw new ApplicationFailureException(applicationResult.toString());
