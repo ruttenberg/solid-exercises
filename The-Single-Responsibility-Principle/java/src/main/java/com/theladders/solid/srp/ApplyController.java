@@ -20,6 +20,8 @@ public class ApplyController
 {
 
   private ApplicationProcess theApplicationProcess;
+  private JobseekerProfileManager theJobseekerProfileManager;
+  private JobSearchService theJobSearchService;
 
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobSearchService jobSearchService,
@@ -27,9 +29,9 @@ public class ApplyController
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    theApplicationProcess = new ApplicationProcess(jobseekerProfileManager,
-          jobSearchService,
-          jobApplicationSystem,
+    theJobseekerProfileManager = jobseekerProfileManager;
+    theJobSearchService = jobSearchService;
+    theApplicationProcess = new ApplicationProcess( jobApplicationSystem,
           resumeManager,
           myResumeManager);
   }
@@ -41,7 +43,7 @@ public class ApplyController
 
     int jobId = RequestInterpreter.getJobId(request);
 
-    Job job = theApplicationProcess.getJob(jobId);
+    Job job = theJobSearchService.getJob(jobId);
 
     if (job == null)
     {
@@ -49,8 +51,8 @@ public class ApplyController
       return response;
     }
 
-    Map<String, Object> model = new HashMap<>();
 
+    Map<String, Object> model = new HashMap<>();
     List<String> errList = new ArrayList<>();
 
     Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
@@ -66,13 +68,12 @@ public class ApplyController
       return response;
     }
 
+
     model.put("jobId", job.getJobId());
-    model.put("jobTitle", job.getTitle());
 
+    ProfileService aProfileService = new ProfileService(jobseeker, theJobseekerProfileManager);
 
-    JobseekerProfile profile = theApplicationProcess.getJobSeekerProfile(jobseeker);
-
-    if (profile.needsResumeCompletion(jobseeker.isPremium()))
+    if (aProfileService.needsResumeCompletion(jobseeker.isPremium()))
     {
       provideResumeCompletionView(response, model);
       return response;

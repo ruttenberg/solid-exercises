@@ -14,14 +14,21 @@ import com.theladders.solid.srp.resume.ResumeManager;
  */
 public class ResumePolicy
 {
-  static public Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
+  private MyResumeManager theMyResumeManager;
+
+  public ResumePolicy(MyResumeManager aMyResumeManager)
+  {
+    theMyResumeManager = aMyResumeManager;
+  }
+
+  public Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
                                                  Jobseeker jobseeker, boolean useExistingResume,
-                                                 boolean makeResumeActive, MyResumeManager myResumeManager , ResumeManager resumeManager)
+                                                 boolean makeResumeActive, ResumeManager resumeManager)
   {
     Resume resume;
 
     if (useExistingResume)
-      return ResumePolicy.getActiveResume(jobseeker.getId(), myResumeManager);
+      return getActiveResume(jobseeker.getId());
 
     resume = ResumePolicy.saveResume(jobseeker, newResumeFileName, resumeManager);
 
@@ -29,20 +36,20 @@ public class ResumePolicy
       return resume;
 
     if (makeResumeActive)
-      saveAsActive(jobseeker, resume, myResumeManager);
+      saveAsActive(jobseeker, resume );
 
     return resume;
   }
 
-  private static Resume getActiveResume(int jobseekerId, MyResumeManager myResumeManager)
+  private Resume getActiveResume(int jobseekerId)
   {
-    return myResumeManager.getActiveResume(jobseekerId);
+    return theMyResumeManager.getActiveResume(jobseekerId);
   }
 
-  private static void saveAsActive(Jobseeker jobseeker,
-                           Resume resume, MyResumeManager myResumeManager)
+  private void saveAsActive(Jobseeker jobseeker,
+                           Resume resume)
   {
-    myResumeManager.saveAsActive(jobseeker, resume);
+    theMyResumeManager.saveAsActive(jobseeker, resume);
   }
 
   private static Resume saveResume(Jobseeker jobseeker,
