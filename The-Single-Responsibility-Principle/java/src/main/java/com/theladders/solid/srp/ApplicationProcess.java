@@ -31,11 +31,6 @@ public class ApplicationProcess {
     this.theResumePolicy = new ResumePolicy(myResumeManager, resumeManager);
   }
 
-  /*private JobApplicationResult apply(UnprocessedApplication application)
-  {
-    return jobApplicationSystem.apply(application);
-  }*/
-
   public void apply(Jobseeker jobseeker, Job job,
                      String fileName, boolean useExistingResume, boolean makeResumeActive)
   {
