@@ -32,10 +32,13 @@ public class ResumePolicy
     if (useExistingResume)
       return getActiveResume(jobseeker.getId());
 
+    if (newResumeFileName == null)
+      return null;
+
     resume = saveResume(jobseeker, newResumeFileName);
 
-    if (resume == null)
-      return resume;
+//    if (resume == null)
+//      return resume;
 
     if (makeResumeActive)
       saveAsActive(jobseeker, resume );

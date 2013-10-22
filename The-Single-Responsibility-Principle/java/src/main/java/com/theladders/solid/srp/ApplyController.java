@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
-import com.theladders.solid.srp.job.Job;
+//import com.theladders.solid.srp.job.Job;
 import com.theladders.solid.srp.job.JobSearchService;
 import com.theladders.solid.srp.job.application.JobApplicationSystem;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
@@ -19,8 +19,8 @@ public class ApplyController
 {
 
   private ApplicationProcess theApplicationProcess;
-  private JobseekerProfileManager theJobseekerProfileManager;
-  private JobSearchService theJobSearchService;
+//  private JobseekerProfileManager theJobseekerProfileManager;
+//  private JobSearchService theJobSearchService;
 
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobSearchService jobSearchService,
@@ -28,18 +28,63 @@ public class ApplyController
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    theJobseekerProfileManager = jobseekerProfileManager;
-    theJobSearchService = jobSearchService;
+//    theJobseekerProfileManager = jobseekerProfileManager;
+//    theJobSearchService = jobSearchService;
     theApplicationProcess = new ApplicationProcess( jobApplicationSystem,
           resumeManager,
-          myResumeManager);
+          myResumeManager,
+          jobSearchService,
+          jobseekerProfileManager);
   }
 
   public HttpResponse handle(HttpRequest request,
+                              HttpResponse response,
+                              String origFileName)
+  {
+
+    int jobId = RequestInterpreter.getJobId(request);
+    Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
+
+    List<String> errList = new ArrayList<>();
+    Map<String, Object> model = new HashMap<>();
+
+//    theApplicationProcess.apply(jobseeker, job, origFileName, RequestInterpreter.useExistingResume(request), RequestInterpreter.makeResumeActive(request));
+    ApplicationProcess.ApplicationStatus applicationResult =
+            theApplicationProcess.doApplication(jobId,
+                                                jobseeker,
+                                                origFileName,
+                                                RequestInterpreter.useExistingResume(request),
+                                                RequestInterpreter.makeResumeActive(request));
+
+    switch (applicationResult)
+    {
+      case ERROR:
+        errList.add("We could not process your application.");
+        provideErrorView(response, errList, model);
+        return response;
+
+      case NO_JOB:
+        provideInvalidJobView(response, jobId);
+        return response;
+
+      case NEEDS_RESUME_COMPLETION:
+        model.put("jobId", theApplicationProcess.getJobId());
+        provideResumeCompletionView(response, model);
+        return response;
+
+      case SUCCESS:
+        model.put("jobId", theApplicationProcess.getJobId());
+        provideApplySuccessView(response, model);
+        return response;
+    }
+
+    return response;
+  }
+
+  /*public HttpResponse xhandle(HttpRequest request,
                              HttpResponse response,
                              String origFileName)
   {
-
     int jobId = RequestInterpreter.getJobId(request);
 
     Job job = theJobSearchService.getJob(jobId);
@@ -50,10 +95,8 @@ public class ApplyController
       return response;
     }
 
-
     Map<String, Object> model = new HashMap<>();
     List<String> errList = new ArrayList<>();
-
     Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
 
     try
@@ -66,7 +109,6 @@ public class ApplyController
       provideErrorView(response, errList, model);
       return response;
     }
-
 
     model.put("jobId", job.getJobId());
 
@@ -81,7 +123,7 @@ public class ApplyController
     provideApplySuccessView(response, model);
 
     return response;
-  }
+  }*/
 
   private static void provideApplySuccessView(HttpResponse response, Map<String, Object> model)
   {
