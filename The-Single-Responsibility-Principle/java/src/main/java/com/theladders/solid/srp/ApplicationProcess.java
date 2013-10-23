@@ -2,7 +2,6 @@ package com.theladders.solid.srp;
 
 import com.theladders.solid.srp.job.Job;
 import com.theladders.solid.srp.job.JobSearchService;
-//import com.theladders.solid.srp.job.application.ApplicationFailureException;
 import com.theladders.solid.srp.job.application.JobApplicationResult;
 import com.theladders.solid.srp.job.application.JobApplicationSystem;
 import com.theladders.solid.srp.job.application.UnprocessedApplication;
@@ -46,17 +45,6 @@ public class ApplicationProcess
     this.theJobseekerProfileManager = aJobseekerProfileManager;
     this.theResumePolicy = new ResumePolicy(myResumeManager, resumeManager);
   }
-
-  /*public void apply(Jobseeker jobseeker, Job job,
-                     String fileName, boolean useExistingResume, boolean makeResumeActive)
-  {
-    Resume resume = theResumePolicy.saveNewOrRetrieveExistingResume(fileName, jobseeker, useExistingResume, makeResumeActive);
-    UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-    JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
-
-    if (applicationResult.failure())
-      throw new ApplicationFailureException(applicationResult.toString());
-  }*/
 
   ApplicationStatus doApplication(int jobId, Jobseeker jobseeker, String fileName, boolean useExistingResume, boolean makeResumeActive)
   {

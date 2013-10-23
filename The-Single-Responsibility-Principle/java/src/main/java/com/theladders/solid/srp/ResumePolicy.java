@@ -37,9 +37,6 @@ public class ResumePolicy
 
     resume = saveResume(jobseeker, newResumeFileName);
 
-//    if (resume == null)
-//      return resume;
-
     if (makeResumeActive)
       saveAsActive(jobseeker, resume );
 

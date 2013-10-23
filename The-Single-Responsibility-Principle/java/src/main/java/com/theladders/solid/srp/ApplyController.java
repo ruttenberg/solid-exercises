@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
-//import com.theladders.solid.srp.job.Job;
 import com.theladders.solid.srp.job.JobSearchService;
 import com.theladders.solid.srp.job.application.JobApplicationSystem;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
@@ -19,8 +18,6 @@ public class ApplyController
 {
 
   private ApplicationProcess theApplicationProcess;
-//  private JobseekerProfileManager theJobseekerProfileManager;
-//  private JobSearchService theJobSearchService;
 
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobSearchService jobSearchService,
@@ -28,8 +25,6 @@ public class ApplyController
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-//    theJobseekerProfileManager = jobseekerProfileManager;
-//    theJobSearchService = jobSearchService;
     theApplicationProcess = new ApplicationProcess( jobApplicationSystem,
           resumeManager,
           myResumeManager,
@@ -48,7 +43,6 @@ public class ApplyController
     List<String> errList = new ArrayList<>();
     Map<String, Object> model = new HashMap<>();
 
-//    theApplicationProcess.apply(jobseeker, job, origFileName, RequestInterpreter.useExistingResume(request), RequestInterpreter.makeResumeActive(request));
     ApplicationProcess.ApplicationStatus applicationResult =
             theApplicationProcess.doApplication(jobId,
                                                 jobseeker,
