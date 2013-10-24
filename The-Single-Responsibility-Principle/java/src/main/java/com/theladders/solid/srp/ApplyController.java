@@ -119,25 +119,25 @@ public class ApplyController
     return response;
   }*/
 
-  private static void provideApplySuccessView(HttpResponse response, Map<String, Object> model)
+  public static void provideApplySuccessView(HttpResponse response, Map<String, Object> model)
   {
     Result result = new Result("success", model);
     response.setResult(result);
   }
 
-  private static void provideResumeCompletionView(HttpResponse response, Map<String, Object> model)
+  public static void provideResumeCompletionView(HttpResponse response, Map<String, Object> model)
   {
     Result result = new Result("completeResumePlease", model);
     response.setResult(result);
   }
 
-  private static void provideErrorView(HttpResponse response, List<String> errList, Map<String, Object> model)
+  public static void provideErrorView(HttpResponse response, List<String> errList, Map<String, Object> model)
   {
    Result result = new Result("error", model, errList);
    response.setResult(result);
   }
 
-  private static void provideInvalidJobView(HttpResponse response, int jobId)
+  public static void provideInvalidJobView(HttpResponse response, int jobId)
   {
     Map<String, Object> model = new HashMap<>();
     model.put("jobId", jobId);
