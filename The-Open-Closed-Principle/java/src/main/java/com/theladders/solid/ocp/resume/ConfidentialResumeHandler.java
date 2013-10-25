@@ -1,5 +1,7 @@
 package com.theladders.solid.ocp.resume;
 
+import java.util.List;
+
 import com.theladders.solid.ocp.jobseeker.JobseekerConfidentialityProfile;
 import com.theladders.solid.ocp.jobseeker.JobseekerConfidentialityProfileDao;
 import com.theladders.solid.ocp.user.User;
@@ -14,6 +16,24 @@ public class ConfidentialResumeHandler
   {
     this.jobSeekerProfileManager = jobseekerProfileManager;
     this.jobseekerConfidentialityProfileDao = jobseekerConfidentialityProfileDao;
+  }
+
+  public void makeCategoriesNonConfidential(User user, List<ConfidentialPhraseCategory> someConfidentialPhraseCategories)
+  {
+    JobseekerProfile jsp = jobSeekerProfileManager.getJobSeekerProfile(user);
+    JobseekerConfidentialityProfile profile = jobseekerConfidentialityProfileDao.fetchJobSeekerConfidentialityProfile(jsp.getId());
+
+    boolean isChanged = false;
+
+    for (ConfidentialPhraseCategory category : someConfidentialPhraseCategories)
+    {
+      isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
+    }
+
+    if (isChanged)
+    {
+      generatePermanentConfidentialFiles(user, profile);
+    }
   }
 
   public void makeAllCategoriesNonConfidential(User user)
