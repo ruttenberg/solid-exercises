@@ -29,12 +29,6 @@ public class ApplicationProcess
   private JobseekerProfileManager theJobseekerProfileManager;
   private Job                     theJob = null;
 
-  public enum ApplicationStatus
-  {
-    SUCCESS, NO_JOB, NEEDS_RESUME_COMPLETION, ERROR
-  }
-
-
   public ApplicationProcess(
                          JobApplicationSystem jobApplicationSystem,
                          ResumeManager resumeManager,
@@ -92,10 +86,5 @@ public class ApplicationProcess
 
     aSuccessResult.setJobID(foundJobID);
     return aSuccessResult;
-  }
-
-  public int getJobId()
-  {
-    return theJob.getJobId();
   }
 }

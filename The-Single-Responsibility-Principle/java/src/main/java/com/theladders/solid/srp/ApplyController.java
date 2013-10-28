@@ -1,6 +1,5 @@
 package com.theladders.solid.srp;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +40,6 @@ public class ApplyController
 
     int jobId = RequestInterpreter.getJobId(request);
     Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
-
-    List<String> errList = new ArrayList<>();
-    Map<String, Object> model = new HashMap<>();
 
     ApplicationResult theApplicationResult =
             theApplicationProcess.doApplication(jobId,
