@@ -9,9 +9,19 @@ import com.theladders.solid.srp.http.HttpResponse;
  * Time: 11:58 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface ApplicationResult
+abstract public class ApplicationResult
 {
-  public int getJobID();
-  public void setJobID(int aJobID);
-  public HttpResponse makeResponse(HttpResponse aHttpResponse);
+  private int theJobID = 0;
+
+  public int getJobID()
+  {
+    return theJobID;
+  }
+
+  public void setJobID(int aJobID)
+  {
+    theJobID = aJobID;
+  }
+
+  abstract public HttpResponse makeResponse(HttpResponse aHttpResponse);
 }

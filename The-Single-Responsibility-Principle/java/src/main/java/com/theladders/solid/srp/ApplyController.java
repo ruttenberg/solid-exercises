@@ -12,7 +12,9 @@ import com.theladders.solid.srp.job.application.JobApplicationSystem;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.resume.MyResumeManager;
+import com.theladders.solid.srp.resume.NeedsResumeCompletionResult;
 import com.theladders.solid.srp.resume.ResumeManager;
+import com.theladders.solid.srp.resume.SuccessResult;
 
 public class ApplyController
 {
@@ -43,36 +45,18 @@ public class ApplyController
     List<String> errList = new ArrayList<>();
     Map<String, Object> model = new HashMap<>();
 
-    ApplicationProcess.ApplicationStatus applicationResult =
+    ApplicationResult theApplicationResult =
             theApplicationProcess.doApplication(jobId,
                                                 jobseeker,
                                                 origFileName,
                                                 RequestInterpreter.useExistingResume(request),
-                                                RequestInterpreter.makeResumeActive(request));
+                                                RequestInterpreter.makeResumeActive(request),
+                                                new NoSuchJobResult(),
+                                                new ErrorResult(),
+                                                new NeedsResumeCompletionResult(),
+                                                new SuccessResult() );
 
-    switch (applicationResult)
-    {
-      case ERROR:
-        errList.add("We could not process your application.");
-        provideErrorView(response, errList, model);
-        return response;
-
-      case NO_JOB:
-        provideInvalidJobView(response, jobId);
-        return response;
-
-      case NEEDS_RESUME_COMPLETION:
-        model.put("jobId", theApplicationProcess.getJobId());
-        provideResumeCompletionView(response, model);
-        return response;
-
-      case SUCCESS:
-        model.put("jobId", theApplicationProcess.getJobId());
-        provideApplySuccessView(response, model);
-        return response;
-    }
-
-    return response;
+    return theApplicationResult.makeResponse(response);
   }
 
   /*public HttpResponse xhandle(HttpRequest request,

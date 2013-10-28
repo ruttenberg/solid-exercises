@@ -13,22 +13,9 @@ import java.util.Map;
  * Time: 12:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ErrorResult implements ApplicationResult
+public class ErrorResult extends ApplicationResult
 {
-  private int theJobID;
-
-  @Override public int getJobID()
-  {
-    return 0;
-  }
-
-  public void setJobID(int aJobID)
-  {
-    theJobID = aJobID;
-  }
-
-
-  @Override public HttpResponse makeResponse(HttpResponse response)
+  public HttpResponse makeResponse(HttpResponse response)
   {
     List<String> errList = new ArrayList<>();
     Map<String, Object> model = new HashMap<>();

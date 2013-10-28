@@ -1,10 +1,10 @@
-package com.theladders.solid.srp;
+package com.theladders.solid.srp.resume;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.theladders.solid.srp.ApplicationResult;
+import com.theladders.solid.srp.ApplyController;
 import com.theladders.solid.srp.http.HttpResponse;
 
 /**
@@ -14,11 +14,13 @@ import com.theladders.solid.srp.http.HttpResponse;
  * Time: 12:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NoSuchJobResult extends ApplicationResult
+public class SuccessResult extends ApplicationResult
 {
   public HttpResponse makeResponse(HttpResponse response)
   {
-    ApplyController.provideInvalidJobView(response, getJobID());
+    Map<String, Object> model = new HashMap<>();
+    model.put("jobId", getJobID());
+    ApplyController.provideApplySuccessView(response, model);
     return response;
   }
 }

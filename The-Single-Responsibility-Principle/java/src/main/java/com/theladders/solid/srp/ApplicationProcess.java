@@ -8,8 +8,10 @@ import com.theladders.solid.srp.job.application.UnprocessedApplication;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 import com.theladders.solid.srp.resume.MyResumeManager;
+import com.theladders.solid.srp.resume.NeedsResumeCompletionResult;
 import com.theladders.solid.srp.resume.Resume;
 import com.theladders.solid.srp.resume.ResumeManager;
+import com.theladders.solid.srp.resume.SuccessResult;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,27 +48,50 @@ public class ApplicationProcess
     this.theResumePolicy = new ResumePolicy(myResumeManager, resumeManager);
   }
 
-  ApplicationStatus doApplication(int jobId, Jobseeker jobseeker, String fileName, boolean useExistingResume, boolean makeResumeActive)
+  ApplicationResult doApplication(int jobId,
+                                  Jobseeker jobseeker,
+                                  String fileName,
+                                  boolean useExistingResume,
+                                  boolean makeResumeActive,
+                                  NoSuchJobResult aNoSuchJobResult,
+                                  ErrorResult anErrorResult,
+                                  NeedsResumeCompletionResult aNeedsResumeCompletionResult,
+                                  SuccessResult aSuccessResult)
   {
     theJob = theJobSearchService.getJob(jobId);
     if (theJob == null)
-      return ApplicationStatus.NO_JOB;
+    {
+      aNoSuchJobResult.setJobID(0);
+      return aNoSuchJobResult;
+    }
+
+    int foundJobID = theJob.getJobId();
 
     Resume resume = theResumePolicy.saveNewOrRetrieveExistingResume(fileName, jobseeker, useExistingResume, makeResumeActive);
     if (resume == null)
-      return ApplicationStatus.ERROR;
+    {
+      anErrorResult.setJobID(foundJobID);
+      return anErrorResult;
+    }
 
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, theJob, resume);
     JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
 
     if (applicationResult.failure())
-      return ApplicationStatus.ERROR;
+    {
+      anErrorResult.setJobID(foundJobID);
+      return anErrorResult;
+    }
 
     ProfileService aProfileService = new ProfileService(jobseeker, theJobseekerProfileManager);
     if (aProfileService.needsResumeCompletion(jobseeker.isPremium()))
-      return ApplicationStatus.NEEDS_RESUME_COMPLETION;
+    {
+      aNeedsResumeCompletionResult.setJobID(foundJobID);
+      return aNeedsResumeCompletionResult;
+    }
 
-    return ApplicationStatus.SUCCESS;
+    aSuccessResult.setJobID(foundJobID);
+    return aSuccessResult;
   }
 
   public int getJobId()
