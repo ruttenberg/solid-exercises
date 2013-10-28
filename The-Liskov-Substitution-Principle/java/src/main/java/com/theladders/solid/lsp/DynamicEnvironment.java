@@ -2,6 +2,7 @@ package com.theladders.solid.lsp;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +13,11 @@ import java.util.Set;
  * @author Zhi-Da Zhong &lt;zz@theladders.com&gt;
  */
 
-public class DynamicEnvironment extends Environment
+public class DynamicEnvironment
 {
   private final Environment         base;
   private final Map<String, String> keyMap; // map insecure prop names to secure ones
+  private HashMap<Object, Object> theHashMap = new HashMap<Object, Object>();
 
   public DynamicEnvironment(Environment base, Map<String, String> propKeyMap)
   {
@@ -23,7 +25,6 @@ public class DynamicEnvironment extends Environment
     this.keyMap = propKeyMap;
   }
 
-  @Override
   public Collection<Object> values()
   {
     // TODO remove masked values
@@ -40,11 +41,10 @@ public class DynamicEnvironment extends Environment
    * @return The value for the given key after mapping (e.g. "home" might be mapped to "secureHome")
    */
 
-  @Override
   public Object get(Object key)
   {
     String realKey = keyMap.get(key);
-    Object value = super.get(realKey != null ? realKey : key);
+    Object value = theHashMap.get(realKey != null ? realKey : key);
     if (value == null)
     {
       return base.get(realKey != null ? realKey : key);
@@ -52,20 +52,28 @@ public class DynamicEnvironment extends Environment
     return value;
   }
 
-  @Override
   public Set<Map.Entry<Object, Object>> entrySet()
   {
-    Set<Map.Entry<Object, Object>> entrySet = new HashSet<>(super.entrySet());
+    Set<Map.Entry<Object, Object>> entrySet = new HashSet<>(theHashMap.entrySet());
     entrySet.addAll(base.entrySet());
     return Collections.unmodifiableSet(entrySet);
   }
 
-  @Override
   public Set<Object> keySet()
   {
-    Set<Object> keySet = new HashSet<>(super.keySet());
+    Set<Object> keySet = new HashSet<>(theHashMap.keySet());
     keySet.addAll(keyMap.keySet());
     keySet.addAll(base.keySet());
     return Collections.unmodifiableSet(keySet);
+  }
+
+  public void put(Object key, Object value)
+  {
+    theHashMap.put(key, value);
+  }
+
+  public String toString()
+  {
+    return theHashMap.toString();
   }
 }

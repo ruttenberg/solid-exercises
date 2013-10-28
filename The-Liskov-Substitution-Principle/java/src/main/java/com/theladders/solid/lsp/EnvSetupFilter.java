@@ -71,7 +71,7 @@ public class EnvSetupFilter
     this.hostName = hostName;
   }
 
-  public Environment getEnvironment(boolean isSecure, boolean loggedInUser)
+  public DynamicEnvironment getEnvironment(boolean isSecure, boolean loggedInUser)
   {
     Environment baseEnv = EnvironmentFactory.getEnvironmentFor(hostName);
 
@@ -91,7 +91,8 @@ public class EnvSetupFilter
       keyMap = new HashMap<>(insecurePropMap);
     }
 
-    Environment dynamicEnv = new DynamicEnvironment(baseEnv, keyMap);
+//    Environment dynamicEnv = new DynamicEnvironment(baseEnv, keyMap);
+    DynamicEnvironment dynamicEnv = new DynamicEnvironment(baseEnv, keyMap);
 
     new SiteConfiguration().seedEnvironment(dynamicEnv);
 
