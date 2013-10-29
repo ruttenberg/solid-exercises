@@ -25,7 +25,7 @@ public class Environment extends HashMap<Object, Object>
     return user.length() > 0 && domain.length() > 0 ? user + "@" + domain : "";
   }
 
-//  private String getString(String key)
+//  public String getString(String key)
   private String getString(String key)
   {
     Object val = get(key);

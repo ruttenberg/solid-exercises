@@ -16,6 +16,10 @@ public class App
     DynamicEnvironment env = filter.getEnvironment(isSecure, loggedInUser);
 
     System.out.println(env);
+
+    // true, true
+    String expectSecureAndLoggedIn = "{isSSL=true, secureHome=https://www.theladders.com/member/, home=http://www.theladders.com/, secureGuestSiteHome=https://www.theladders.com/, secureFalconSiteHome=https://www.theladders.com/, secureMemberSiteHome=https://www.theladders.com/member/, secureHome=https://www.theladders.com/, memberSiteHome=http://www.theladders.com/member/, home=http://www.theladders.com/member/, guestSiteHome=http://www.theladders.com/, falconSiteHome=http://www.theladders.com/}";
+    System.out.println(expectSecureAndLoggedIn);
   }
 
   @SuppressWarnings("resource")
