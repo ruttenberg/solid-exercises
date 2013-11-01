@@ -1,6 +1,6 @@
 package com.theladders.solid.isp.oldjob.stubs;
 
-public class PositionLevel
+public interface PositionLevel
 {
 
 }

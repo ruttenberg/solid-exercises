@@ -1,6 +1,6 @@
 package com.theladders.solid.isp.oldjob.stubs;
 
-public class Experience
+public interface Experience
 {
 
 }
