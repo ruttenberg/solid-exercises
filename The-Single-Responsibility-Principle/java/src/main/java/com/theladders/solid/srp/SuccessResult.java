@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.resume;
+package com.theladders.solid.srp;
 
 import java.util.HashMap;
 import java.util.Map;

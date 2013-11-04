@@ -1,7 +1,5 @@
 package com.theladders.solid.srp;
 
-import com.theladders.solid.srp.http.HttpResponse;
-
 /**
  * Created with IntelliJ IDEA.
  * User: jpr
@@ -11,9 +9,4 @@ import com.theladders.solid.srp.http.HttpResponse;
  */
 public class NoSuchJobResult extends ApplicationResult
 {
-  public HttpResponse makeResponse(HttpResponse response)
-  {
-    ApplyController.provideInvalidJobView(response, getJobID());
-    return response;
-  }
 }

@@ -1,10 +1,8 @@
-package com.theladders.solid.srp.resume;
+package com.theladders.solid.srp;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.theladders.solid.srp.ApplicationResult;
-import com.theladders.solid.srp.ApplyController;
 import com.theladders.solid.srp.http.HttpResponse;
 
 /**
@@ -14,13 +12,13 @@ import com.theladders.solid.srp.http.HttpResponse;
  * Time: 12:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NeedsResumeCompletionResult extends ApplicationResult
+public class SuccessResponseMaker extends SuccessResult implements HttpResponseMaker
 {
   public HttpResponse makeResponse(HttpResponse response)
   {
     Map<String, Object> model = new HashMap<>();
     model.put("jobId", getJobID());
-    ApplyController.provideResumeCompletionView(response, model);
+    ApplyController.provideApplySuccessView(response, model);
     return response;
   }
 }

@@ -7,6 +7,6 @@ package com.theladders.solid.srp;
  * Time: 12:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ErrorResult extends ApplicationResult
+public class NeedsResumeCompletionResult extends ApplicationResult
 {
 }

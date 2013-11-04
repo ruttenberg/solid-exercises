@@ -11,9 +11,7 @@ import com.theladders.solid.srp.job.application.JobApplicationSystem;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.resume.MyResumeManager;
-import com.theladders.solid.srp.resume.NeedsResumeCompletionResult;
 import com.theladders.solid.srp.resume.ResumeManager;
-import com.theladders.solid.srp.resume.SuccessResult;
 
 public class ApplyController
 {
@@ -41,18 +39,17 @@ public class ApplyController
     int jobId = RequestInterpreter.getJobId(request);
     Jobseeker jobseeker = RequestInterpreter.getJobseeker(request);
 
-    ApplicationResult theApplicationResult =
-            theApplicationProcess.doApplication(jobId,
+    ApplicationResult theApplicationResult = theApplicationProcess.doApplication(jobId,
                                                 jobseeker,
                                                 origFileName,
                                                 RequestInterpreter.useExistingResume(request),
                                                 RequestInterpreter.makeResumeActive(request),
-                                                new NoSuchJobResult(),
-                                                new ErrorResult(),
-                                                new NeedsResumeCompletionResult(),
-                                                new SuccessResult() );
+                                                new NoSuchJobResponseMaker(),
+                                                new ErrorResponseMaker(),
+                                                new NeedsResumeCompletionResponseMaker(),
+                                                new SuccessResponseMaker() );
 
-    return theApplicationResult.makeResponse(response);
+    return ((HttpResponseMaker)theApplicationResult).makeResponse(response);
   }
 
   /*public HttpResponse xhandle(HttpRequest request,

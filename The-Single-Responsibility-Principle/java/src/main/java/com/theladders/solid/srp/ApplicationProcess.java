@@ -8,10 +8,8 @@ import com.theladders.solid.srp.job.application.UnprocessedApplication;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 import com.theladders.solid.srp.resume.MyResumeManager;
-import com.theladders.solid.srp.resume.NeedsResumeCompletionResult;
 import com.theladders.solid.srp.resume.Resume;
 import com.theladders.solid.srp.resume.ResumeManager;
-import com.theladders.solid.srp.resume.SuccessResult;
 
 /**
  * Created with IntelliJ IDEA.

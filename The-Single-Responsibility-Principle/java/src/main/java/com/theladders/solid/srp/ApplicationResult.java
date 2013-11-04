@@ -1,6 +1,6 @@
 package com.theladders.solid.srp;
 
-import com.theladders.solid.srp.http.HttpResponse;
+//import com.theladders.solid.srp.http.HttpResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,5 +23,5 @@ abstract public class ApplicationResult
     theJobID = aJobID;
   }
 
-  abstract public HttpResponse makeResponse(HttpResponse aHttpResponse);
+//  abstract public HttpResponse makeResponse(HttpResponse aHttpResponse);
 }
