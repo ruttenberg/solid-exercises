@@ -1,19 +1,23 @@
 package com.theladders.solid.dip;
 
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-public class SuggestedArticleDao
+public class SuggestedArticleDao implements ArticleDao
 {
-  public void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticle article) {}
+  public void updateByPrimaryKeySelective(@SuppressWarnings("unused") Article article) {}
 
-  public int insertReturnId(@SuppressWarnings("unused") SuggestedArticle suggestedArticle)
+  public int insertReturnId(@SuppressWarnings("unused") Article article)
   {
     return 0;
   }
 
-  public List<SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
+  public List<Article> selectByExampleWithBlobs(@SuppressWarnings("unused") Datum criteria)
   {
-    return Collections.singletonList(new SuggestedArticle());
+    List<Article> list = new LinkedList<Article>();
+    list.add(new SuggestedArticle());
+    return list;
+
+//    return Collections.singletonList(new SuggestedArticle());
   }
 }

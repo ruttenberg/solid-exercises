@@ -2,10 +2,7 @@ package com.theladders.solid.dip;
 
 import java.util.Date;
 
-// A SuggestedArticle is one instance of an article that has been
-// recommended to a particular subscriber.
-
-public class SuggestedArticle
+public class SuggestedArticle implements Article
 {
   private Integer     suggestedArticleId;
   private Integer     subscriberId;
@@ -19,14 +16,18 @@ public class SuggestedArticle
   private String      note;
   private ContentNode content;
 
-  private Integer     STATUS_UNREAD = 1;
+  private Integer STATUS_UNREAD = 1;
 
-  public SuggestedArticle() {}
+
+  public SuggestedArticle()
+  {
+  }
+
 
   public SuggestedArticle(Integer subscriberId,
-                          String articleExternalIdentifier,
-                          String note,
-                          Integer adminUserId)
+                 String articleExternalIdentifier,
+                 String note,
+                 Integer adminUserId)
   {
     this.subscriberId = subscriberId;
     this.articleExternalIdentifier = articleExternalIdentifier;
@@ -178,5 +179,4 @@ public class SuggestedArticle
       this.setSuggestedArticleStatusId(1);
     }
   }
-
 }

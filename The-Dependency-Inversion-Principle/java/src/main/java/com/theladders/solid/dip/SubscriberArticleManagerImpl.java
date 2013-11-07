@@ -23,52 +23,56 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     CATEGORY_IMAGE_MAP.put("On the Job", "salary_thumb.jpg");
   }
 
-  private SuggestedArticleDao              suggestedArticleDao;
-  private RepositoryManager                repositoryManager;
 
-  public SubscriberArticleManagerImpl(SuggestedArticleDao suggestedArticleDao,
-                                      RepositoryManager repositoryManager)
+  private ArticleDao articleDao;
+  private Repository repository;
+
+
+  public SubscriberArticleManagerImpl(ArticleDao articleDao,
+                                      Repository repository)
   {
-    this.suggestedArticleDao = suggestedArticleDao;
-    this.repositoryManager = repositoryManager;
+    this.articleDao = articleDao;
+    this.repository = repository;
   }
 
-  public List<SuggestedArticle> getArticlesbySubscriber(Integer subscriberId)
+
+  public List<Article> getArticlesbySubscriber(Integer subscriberId,
+                                               Datum criteria)
   {
-    SuggestedArticleExample criteria = new SuggestedArticleExample();
     criteria.createCriteria()
             .andSubscriberIdEqualTo(subscriberId)
             .andSuggestedArticleStatusIdIn(Arrays.asList(1, 2))  // must be New or Viewed
             .andSuggestedArticleSourceIdEqualTo(1);
 
     criteria.setOrderByClause("create_time desc");
-    List<SuggestedArticle> dbSuggestions = this.suggestedArticleDao.selectByExampleWithBlobs(criteria);
+    List<Article> dbSuggestions = this.articleDao.selectByExampleWithBlobs(criteria);
 
-    // Fetch content associated with SuggestedArticle (based on externalArticleId)
+    // Fetch content associated with Article (based on externalArticleId)
     resolveArticles(dbSuggestions);
 
     return dbSuggestions;
   }
 
-  public int addSuggestedArticle(SuggestedArticle suggestedArticle)
+
+  public int addSuggestedArticle(Article article)
   {
     Integer STATUS_UNREAD = 1;
     Integer HTP_CONSULTANT = 1;
-    suggestedArticle.setSuggestedArticleStatusId(STATUS_UNREAD);
-    suggestedArticle.setSuggestedArticleSourceId(HTP_CONSULTANT);
-    suggestedArticle.setCreateTime(new Date()); // current date
-    suggestedArticle.setUpdateTime(new Date()); // current date
-    int newId = suggestedArticleDao.insertReturnId(suggestedArticle);
+    article.setSuggestedArticleStatusId(STATUS_UNREAD);
+    article.setSuggestedArticleSourceId(HTP_CONSULTANT);
+    article.setCreateTime(new Date()); // current date
+    article.setUpdateTime(new Date()); // current date
+    int newId = articleDao.insertReturnId(article);
     return newId;
   }
 
-  private void resolveArticles(List<SuggestedArticle> dbArticles)
+  private void resolveArticles(List<Article> dbArticles)
   {
-    for (SuggestedArticle article : dbArticles)
+    for (Article article : dbArticles)
     {
 
       // Attempt to fetch the actual content;
-      ContentNode content = this.repositoryManager.getNodeByUuid(article.getArticleExternalIdentifier());
+      ContentNode content = this.repository.getNodeByUuid(article.getArticleExternalIdentifier());
       if (content != null && ContentUtils.isPublishedAndEnabled(content))
       {
         // Override miniImagePath
@@ -89,20 +93,18 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     }
   }
 
-  public void updateNote(Integer id, String note)
+  public void updateNote(Integer id, String note, Article article)
   {
-    SuggestedArticle article = new SuggestedArticle();
     article.setSuggestedArticleId(id);
     article.setNote(note);
-    suggestedArticleDao.updateByPrimaryKeySelective(article);
+    articleDao.updateByPrimaryKeySelective(article);
   }
 
-  public void markRecomDeleted(Integer id)
+  public void markRecomDeleted(Integer id, Article article)
   {
     Integer STATUS_DELETED = 4;
-    SuggestedArticle article = new SuggestedArticle();
     article.setSuggestedArticleId(id);
     article.setSuggestedArticleStatusId(STATUS_DELETED);
-    suggestedArticleDao.updateByPrimaryKeySelective(article);
+    articleDao.updateByPrimaryKeySelective(article);
   }
 }

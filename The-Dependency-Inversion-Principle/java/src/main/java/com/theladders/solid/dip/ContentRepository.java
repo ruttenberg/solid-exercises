@@ -1,6 +1,6 @@
 package com.theladders.solid.dip;
 
-public class RepositoryManager
+public class ContentRepository implements Repository
 {
   public ContentNode getNodeByUuid(String id)
   {

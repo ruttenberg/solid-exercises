@@ -10,32 +10,32 @@ public interface SubscriberArticleManager
    *   Sorted reverse chronological by time recommended
    *
    * It also gets the content of the actual articles from the CMS and stores it in
-   * the SuggestedArticle object.
+   * the Article object.
    *
    * @param subscriberId
    *          ID of this subscriber
    * @return List of all suggested articles whose status is either New or Viewed
    */
-  public List<SuggestedArticle> getArticlesbySubscriber(Integer subscriberId);
+  public List<Article> getArticlesbySubscriber(Integer subscriberId, Datum criteria);
 
   /**
-   * Add a SuggestedArticle to the database.
+   * Add a Article to the database.
    *
-   * @param suggestedArticle
+   * @param article
    */
 
-  public int addSuggestedArticle(SuggestedArticle suggestedArticle);
+  public int addSuggestedArticle(Article article);
 
   /**
    * Update the note of the Suggested Article(id)
    *  with the note passed in.
    *
    */
-  public void updateNote(Integer id, String note);
+  public void updateNote(Integer id, String note, Article article);
 
   /**
    * Mark as deleted the Suggested Article(id)
    *
    */
-  public void markRecomDeleted(Integer id);
+  public void markRecomDeleted(Integer id, Article article);
 }
