@@ -8,5 +8,5 @@ public interface ArticleDao
 
   public int insertReturnId(@SuppressWarnings("unused") Article article);
 
-  public List<Article> selectByExampleWithBlobs(@SuppressWarnings("unused") Datum criteria);
+  public List<? extends Article> selectByExampleWithBlobs(@SuppressWarnings("unused") Datum criteria);
 }

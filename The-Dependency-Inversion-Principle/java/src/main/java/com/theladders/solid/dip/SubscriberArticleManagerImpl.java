@@ -36,7 +36,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
   }
 
 
-  public List<Article> getArticlesbySubscriber(Integer subscriberId,
+  public List<? extends Article> getArticlesbySubscriber(Integer subscriberId,
                                                Datum criteria)
   {
     criteria.createCriteria()
@@ -45,7 +45,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
             .andSuggestedArticleSourceIdEqualTo(1);
 
     criteria.setOrderByClause("create_time desc");
-    List<Article> dbSuggestions = this.articleDao.selectByExampleWithBlobs(criteria);
+    List<? extends Article> dbSuggestions = this.articleDao.selectByExampleWithBlobs(criteria);
 
     // Fetch content associated with Article (based on externalArticleId)
     resolveArticles(dbSuggestions);
@@ -66,13 +66,13 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     return newId;
   }
 
-  private void resolveArticles(List<Article> dbArticles)
+  private void resolveArticles(List<? extends Article> dbArticles)
   {
     for (Article article : dbArticles)
     {
 
       // Attempt to fetch the actual content;
-      ContentNode content = this.repository.getNodeByUuid(article.getArticleExternalIdentifier());
+      PropertyStore content = this.repository.getNodeByUuid(article.getArticleExternalIdentifier());
       if (content != null && ContentUtils.isPublishedAndEnabled(content))
       {
         // Override miniImagePath
@@ -82,7 +82,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     }
   }
 
-  private static void overrideMiniImagePath(ContentNode node)
+  private static void overrideMiniImagePath(PropertyStore node)
   {
     String path = (String) node.getProperty("miniImagePath");
 

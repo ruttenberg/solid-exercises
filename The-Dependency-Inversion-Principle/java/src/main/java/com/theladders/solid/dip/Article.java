@@ -57,9 +57,9 @@ public interface Article
 
   public void setNote(String note);
 
-  public ContentNode getContent();
+  public PropertyStore getContent();
 
-  public void setContent(ContentNode node);
+  public void setContent(PropertyStore node);
 
   public boolean getIsRead();
 

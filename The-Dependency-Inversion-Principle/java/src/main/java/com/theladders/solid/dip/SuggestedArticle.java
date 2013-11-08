@@ -14,7 +14,7 @@ public class SuggestedArticle implements Article
   private Date        updateTime;
   private Integer     updaterId;
   private String      note;
-  private ContentNode content;
+  private PropertyStore content;
 
   private Integer STATUS_UNREAD = 1;
 
@@ -148,12 +148,12 @@ public class SuggestedArticle implements Article
     this.note = note == null ? null : note.trim();
   }
 
-  public ContentNode getContent()
+  public PropertyStore getContent()
   {
     return content;
   }
 
-  public void setContent(ContentNode node)
+  public void setContent(PropertyStore node)
   {
     this.content = node;
   }
