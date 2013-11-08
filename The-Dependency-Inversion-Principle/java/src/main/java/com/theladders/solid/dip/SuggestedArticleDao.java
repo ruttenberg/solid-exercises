@@ -1,7 +1,6 @@
 package com.theladders.solid.dip;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SuggestedArticleDao implements ArticleDao
@@ -15,11 +14,6 @@ public class SuggestedArticleDao implements ArticleDao
 
   public List<? extends Article> selectByExampleWithBlobs(@SuppressWarnings("unused") Datum criteria)
   {
-
-    List<Article> list = new LinkedList<Article>();
-    list.add(new SuggestedArticle());
-//    return list;
-
     return Collections.singletonList(new SuggestedArticle());
   }
 }
