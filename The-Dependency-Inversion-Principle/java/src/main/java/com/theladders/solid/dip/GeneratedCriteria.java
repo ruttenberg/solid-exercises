@@ -56,23 +56,23 @@ import java.util.Map;
     }
 
 
-    public SuggestedArticleCriteria andSubscriberIdEqualTo(Integer value)
+    public Criteria andSubscriberIdEqualTo(Integer value)
     {
       addCriterion("subscriber_id =", value, "subscriberId");
-      return (SuggestedArticleCriteria) null;
+      return  null;
     }
 
 
-    public SuggestedArticleCriteria andSuggestedArticleSourceIdEqualTo(Integer value)
+    public Criteria andSuggestedArticleSourceIdEqualTo(Integer value)
     {
       addCriterion("suggested_article_source_id =", value, "suggestedArticleSourceId");
-      return (SuggestedArticleCriteria) null;
+      return  null;
     }
 
 
-    public SuggestedArticleCriteria andSuggestedArticleStatusIdIn(List<Integer> values)
+    public Criteria andSuggestedArticleStatusIdIn(List<Integer> values)
     {
       addCriterion("suggested_article_status_id in", values, "suggestedArticleStatusId");
-      return (SuggestedArticleCriteria) null;
+      return  null;
     }
   }
