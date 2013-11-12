@@ -21,16 +21,16 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 
 
   public List<? extends Article> getArticlesbySubscriber(Subscriber aSubscriber,
-                                               Datum basicCriteria)
+                                               BasicCriteria basicCriteria)
   {
-    basicCriteria.createCriteria()
+    basicCriteria.createExtendedCriteria()
             .forSubscriber(aSubscriber)
             .newOrViewed()  // must be New or Viewed
             .fromHTPConsultant();
 
     basicCriteria.mostRecentlyRecommendedComeFirst();
 
-    List<? extends Article> dbSuggestions = this.articleDao.selectByExampleWithBlobs(basicCriteria);
+    List<? extends Article> dbSuggestions = this.articleDao.findArticleByExample(basicCriteria);
 
     // Fetch content associated with Article (based on externalArticleId)
     resolveArticles(dbSuggestions);
@@ -78,7 +78,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
   public void updateNote(String note, Article article)
   {
     article.setNote(note);
-    articleDao.updateByPrimaryKeySelective(article);
+    articleDao.updateArticle(article);
   }
 
   public void markRecomDeleted(Article article)
@@ -86,6 +86,6 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 //    Integer STATUS_DELETED = 4;
 //    article.setSuggestedArticleStatusId(STATUS_DELETED);
     article.makeDeleted();
-    articleDao.updateByPrimaryKeySelective(article);
+    articleDao.updateArticle(article);
   }
 }

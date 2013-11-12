@@ -16,7 +16,7 @@ public interface SubscriberArticleManager
    *          ID of this subscriber
    * @return List of all suggested articles whose status is either New or Viewed
    */
-  public List<? extends Article> getArticlesbySubscriber(Subscriber aSubscriber, Datum criteria);
+  public List<? extends Article> getArticlesbySubscriber(Subscriber aSubscriber, BasicCriteria criteria);
 
   /**
    * Add a Article to the database.

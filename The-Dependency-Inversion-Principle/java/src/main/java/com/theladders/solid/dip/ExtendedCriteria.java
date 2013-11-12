@@ -2,7 +2,7 @@ package com.theladders.solid.dip;
 
 import java.util.List;
 
-public interface Criteria
+public interface ExtendedCriteria
 {
   public void addCriterion(String condition,
                               Object value,
@@ -12,12 +12,12 @@ public interface Criteria
                               List<? extends Object> values,
                               String property);
 
-//  public Criteria andSubscriberIdEqualTo(Subscriber aSubscriber);
-  public Criteria forSubscriber(Subscriber aSubscriber);
+//  public ExtendedCriteria andSubscriberIdEqualTo(Subscriber aSubscriber);
+  public ExtendedCriteria forSubscriber(Subscriber aSubscriber);
 
-  public Criteria fromHTPConsultant();
+  public ExtendedCriteria fromHTPConsultant();
 
-  public Criteria newOrViewed();
+  public ExtendedCriteria newOrViewed();
 
-//  public Criteria mostRecentlyRecommendedComeFirst();
+//  public ExtendedCriteria mostRecentlyRecommendedComeFirst();
 }

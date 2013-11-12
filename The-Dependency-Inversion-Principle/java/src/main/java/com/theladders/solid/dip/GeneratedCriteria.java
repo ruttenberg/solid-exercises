@@ -12,7 +12,7 @@ import java.util.Map;
    *
    * @mbggenerated Fri Dec 03 17:06:47 EST 2010
    */
-  abstract class GeneratedCriteria implements Criteria
+  abstract class GeneratedCriteria implements ExtendedCriteria
   {
     protected List<Map<String, Object>> criteriaWithSingleValue;
 
@@ -57,21 +57,21 @@ import java.util.Map;
     }
 
 
-    public Criteria forSubscriber(Subscriber aSubscriber)
+    public ExtendedCriteria forSubscriber(Subscriber aSubscriber)
     {
       addCriterion("subscriber_id =", aSubscriber.getID(), "subscriberId");
       return  null;
     }
 
 
-    public Criteria fromHTPConsultant()
+    public ExtendedCriteria fromHTPConsultant()
     {
       addCriterion("suggested_article_source_id =", 1, "suggestedArticleSourceId");
       return  null;
     }
 
 
-    public Criteria newOrViewed()
+    public ExtendedCriteria newOrViewed()
     {
       addCriterion("suggested_article_status_id in", Arrays.asList(1, 2), "suggestedArticleStatusId");
       return  null;
