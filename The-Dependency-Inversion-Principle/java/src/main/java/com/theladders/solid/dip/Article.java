@@ -8,9 +8,9 @@ import java.util.Date;
 public interface Article
 {
   @Column(name = "suggested_article_id")
-  public Integer getSuggestedArticleId();
+  public ArticleID getSuggestedArticleId();
 
-  public void setSuggestedArticleId(Integer suggestedArticleId);
+  public void setSuggestedArticleId(ArticleID suggestedArticleId);
 
   @Column(name = "subscriber_id")
   public Integer getSubscriberId();
@@ -23,9 +23,9 @@ public interface Article
   public void setSuggestedArticleSourceId(Integer suggestedArticleSourceId);
 
   @Column(name = "article_external_identifier")
-  public String getArticleExternalIdentifier();
+  public ContentID getArticleExternalIdentifier();
 
-  public void setArticleExternalIdentifier(String articleExternalIdentifier);
+  public void setArticleExternalIdentifier(ContentID articleExternalIdentifier);
 
   @Column(name = "suggested_article_status_id")
   public Integer getSuggestedArticleStatusId();
@@ -64,4 +64,10 @@ public interface Article
   public boolean getIsRead();
 
   public void setIsRead(boolean read);
+
+  public void makeStatusUnread();
+
+  public void makeSourceHTPConsultant();
+
+  public void makeDeleted();
 }

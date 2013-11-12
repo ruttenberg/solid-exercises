@@ -1,6 +1,7 @@
 package com.theladders.solid.dip;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,23 +57,24 @@ import java.util.Map;
     }
 
 
-    public Criteria andSubscriberIdEqualTo(Integer value)
+    public Criteria forSubscriber(Subscriber aSubscriber)
     {
-      addCriterion("subscriber_id =", value, "subscriberId");
+      addCriterion("subscriber_id =", aSubscriber.getID(), "subscriberId");
       return  null;
     }
 
 
-    public Criteria andSuggestedArticleSourceIdEqualTo(Integer value)
+    public Criteria fromHTPConsultant()
     {
-      addCriterion("suggested_article_source_id =", value, "suggestedArticleSourceId");
+      addCriterion("suggested_article_source_id =", 1, "suggestedArticleSourceId");
       return  null;
     }
 
 
-    public Criteria andSuggestedArticleStatusIdIn(List<Integer> values)
+    public Criteria newOrViewed()
     {
-      addCriterion("suggested_article_status_id in", values, "suggestedArticleStatusId");
+      addCriterion("suggested_article_status_id in", Arrays.asList(1, 2), "suggestedArticleStatusId");
       return  null;
     }
+
   }

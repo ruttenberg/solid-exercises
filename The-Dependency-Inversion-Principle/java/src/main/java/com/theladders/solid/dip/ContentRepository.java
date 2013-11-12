@@ -2,7 +2,7 @@ package com.theladders.solid.dip;
 
 public class ContentRepository implements Repository
 {
-  public PropertyStore getNodeByUuid(String id)
+  public PropertyStore getNodeForArticle(ContentID id)
   {
     PropertyStore node = new ContentNode();
 

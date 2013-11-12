@@ -6,7 +6,7 @@ public interface ArticleDao
 {
   public void updateByPrimaryKeySelective(@SuppressWarnings("unused") Article article);
 
-  public int insertReturnId(@SuppressWarnings("unused") Article article);
+  public ArticleID insertReturnId(@SuppressWarnings("unused") Article article);
 
   public List<? extends Article> selectByExampleWithBlobs(@SuppressWarnings("unused") Datum criteria);
 }

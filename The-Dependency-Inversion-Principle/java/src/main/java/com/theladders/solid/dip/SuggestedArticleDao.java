@@ -7,9 +7,9 @@ public class SuggestedArticleDao implements ArticleDao
 {
   public void updateByPrimaryKeySelective(@SuppressWarnings("unused") Article article) {}
 
-  public int insertReturnId(@SuppressWarnings("unused") Article article)
+  public ArticleID insertReturnId(@SuppressWarnings("unused") Article article)
   {
-    return 0;
+    return null;
   }
 
   public List<? extends Article> selectByExampleWithBlobs(@SuppressWarnings("unused") Datum criteria)

@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class SuggestedArticle implements Article
 {
-  private Integer     suggestedArticleId;
+  private ArticleID     suggestedArticleId;
   private Integer     subscriberId;
   private Integer     suggestedArticleSourceId;
-  private String      articleExternalIdentifier;
+  private ContentID      articleExternalIdentifier;
   private Integer     suggestedArticleStatusId;
   private Date        createTime;
   private Integer     creatorId;
@@ -25,7 +25,7 @@ public class SuggestedArticle implements Article
 
 
   public SuggestedArticle(Integer subscriberId,
-                 String articleExternalIdentifier,
+                 ContentID articleExternalIdentifier,
                  String note,
                  Integer adminUserId)
   {
@@ -39,12 +39,12 @@ public class SuggestedArticle implements Article
   }
 
   @Column(name = "suggested_article_id")
-  public Integer getSuggestedArticleId()
+  public ArticleID getSuggestedArticleId()
   {
     return suggestedArticleId;
   }
 
-  public void setSuggestedArticleId(Integer suggestedArticleId)
+  public void setSuggestedArticleId(ArticleID suggestedArticleId)
   {
     this.suggestedArticleId = suggestedArticleId;
   }
@@ -72,14 +72,14 @@ public class SuggestedArticle implements Article
   }
 
   @Column(name = "article_external_identifier")
-  public String getArticleExternalIdentifier()
+  public ContentID getArticleExternalIdentifier()
   {
     return articleExternalIdentifier;
   }
 
-  public void setArticleExternalIdentifier(String articleExternalIdentifier)
+  public void setArticleExternalIdentifier(ContentID articleExternalIdentifier)
   {
-    this.articleExternalIdentifier = articleExternalIdentifier == null ? null : articleExternalIdentifier.trim();
+    this.articleExternalIdentifier = articleExternalIdentifier;
   }
 
   @Column(name = "suggested_article_status_id")
@@ -178,5 +178,20 @@ public class SuggestedArticle implements Article
     {
       this.setSuggestedArticleStatusId(1);
     }
+  }
+
+  public void makeStatusUnread()
+  {
+    setSuggestedArticleStatusId(1);
+  }
+
+  public void makeSourceHTPConsultant()
+  {
+    setSuggestedArticleSourceId(1);
+  }
+
+  public void makeDeleted()
+  {
+    setSuggestedArticleStatusId(4);
   }
 }

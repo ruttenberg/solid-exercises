@@ -12,9 +12,12 @@ public interface Criteria
                               List<? extends Object> values,
                               String property);
 
-  public Criteria andSubscriberIdEqualTo(Integer value);
+//  public Criteria andSubscriberIdEqualTo(Subscriber aSubscriber);
+  public Criteria forSubscriber(Subscriber aSubscriber);
 
-  public Criteria andSuggestedArticleSourceIdEqualTo(Integer value);
+  public Criteria fromHTPConsultant();
 
-  public Criteria andSuggestedArticleStatusIdIn(List<Integer> values);
+  public Criteria newOrViewed();
+
+//  public Criteria mostRecentlyRecommendedComeFirst();
 }

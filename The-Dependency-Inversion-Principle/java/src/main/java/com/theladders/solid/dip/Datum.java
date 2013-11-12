@@ -76,4 +76,6 @@ public interface Datum
      */
     public Criteria createCriteriaInternal() ;
 
+    public void mostRecentlyRecommendedComeFirst();
+
 }

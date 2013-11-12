@@ -136,4 +136,9 @@ public class SuggestedArticleExample implements Datum
     Criteria suggestedArticleCriteria = new SuggestedArticleCriteria();
     return suggestedArticleCriteria;
   }
+
+  public void mostRecentlyRecommendedComeFirst()
+  {
+    setOrderByClause("create_time desc");
+  }
 }
